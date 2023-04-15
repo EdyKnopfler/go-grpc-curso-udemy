@@ -1,0 +1,21 @@
+syntax = "proto3";
+
+option go_package = "com.derso/curso_creuto/myprotos";
+option java_multiple_files = true;
+option java_package = "com.derso.naovouusarjava";
+option java_outer_classname = "SignVerifyClient";
+option objc_class_prefix = "SVC";
+
+package signverify;
+
+service signVerify {
+    rpc Sign (SignRequest) returns (SignResponse) {}
+}
+
+message SignRequest {
+    string text = 1;
+}
+
+message SignResponse {
+    string signature = 1;
+}
