@@ -1,6 +1,6 @@
 syntax = "proto3";
 
-option go_package = "com.derso/curso_creuto/myprotos";
+option go_package = "com.derso/curso_creuto/grpc/myprotos";
 option java_multiple_files = true;
 option java_package = "com.derso.naovouusarjava";
 option java_outer_classname = "SignVerifyClient";
