@@ -15,6 +15,7 @@ import (
 
 	pb "com.derso/curso_creuto/grpc/myprotos"
 	"google.golang.org/grpc"
+	"google.golang.org/grpc/credentials"
 )
 
 type server struct {
@@ -67,15 +68,21 @@ func main() {
 	}
 
 	// Escuta em socket bruto
-	lis, err := net.Listen("tcp", ":8080")
+	lis, err := net.Listen("tcp", "localhost:8080")
 
 	if err != nil {
 		fmt.Printf("Erro ao subir servidor: %v\n", err)
 		panic(err)
 	}
 
+	// Autenticando:
+	// https://grpc.io/docs/guides/auth/
+	// https://linuxize.com/post/creating-a-self-signed-ssl-certificate/
+	// https://jfrog.com/knowledge-base/general-what-should-i-do-if-i-get-an-x509-certificate-relies-on-legacy-common-name-field-error/
+	creds, _ := credentials.NewServerTLSFromFile("./mycert.crt", "./mycert.key")
+	s := grpc.NewServer(grpc.Creds(creds))
+
 	// Usando as interfaces geradas pelo "protoc"
-	s := grpc.NewServer()
 	pb.RegisterSignVerifyServer(s, &server{})
 	fmt.Printf("Servidor ouvindo em %v\n", lis.Addr())
 

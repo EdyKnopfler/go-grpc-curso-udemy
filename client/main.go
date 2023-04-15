@@ -7,14 +7,21 @@ import (
 
 	pb "com.derso/curso_creuto/grpc/myprotos"
 	"google.golang.org/grpc"
-	"google.golang.org/grpc/credentials/insecure"
+	"google.golang.org/grpc/credentials"
 )
 
 func main() {
 	serverAddr := "localhost:8080" // Para fins didáticos isto serve!
 
 	// Não curti este INSECURE!
-	conn, err := grpc.Dial(serverAddr, grpc.WithTransportCredentials(insecure.NewCredentials()))
+	//conn, err := grpc.Dial(serverAddr, grpc.WithTransportCredentials(insecure.NewCredentials()))
+
+	// Autenticando:
+	// https://grpc.io/docs/guides/auth/
+	// https://linuxize.com/post/creating-a-self-signed-ssl-certificate/
+	// https://jfrog.com/knowledge-base/general-what-should-i-do-if-i-get-an-x509-certificate-relies-on-legacy-common-name-field-error/
+	creds, _ := credentials.NewClientTLSFromFile("./mycert.crt", "")
+	conn, err := grpc.Dial(serverAddr, grpc.WithTransportCredentials(creds))
 
 	if err != nil {
 		fmt.Println(err)
