@@ -68,7 +68,7 @@ func main() {
 	}
 
 	// Escuta em socket bruto
-	lis, err := net.Listen("tcp", "localhost:8080")
+	lis, err := net.Listen("tcp", ":8080")
 
 	if err != nil {
 		fmt.Printf("Erro ao subir servidor: %v\n", err)
